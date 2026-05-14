@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login y Registro - Proactive Nutrition</title>
+    <style>
+        body {
+            background-color: #000000 !important;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .login-card {
+            background: rgb(255, 255, 255);
+            padding: 40px;
+            border-radius: 20px;
+            width: 380px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: all 0.3s ease; 
+        }
+        .logo-placeholder {
+            width: 100px;
+            height: 100px;
+            background:#ffffff;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .input-group { text-align: left; margin-bottom: 20px; }
+        .input-group label { display: block; font-weight: bold; margin-bottom: 8px; }
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            background: #ffffff;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: #000000;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .color-bar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .bar { width: 40px; height: 4px; border-radius: 2px; }
+        
+        /* Estilos para el registrate aqui */
+        .toggle-link {
+            display: block;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #555;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .toggle-link:hover {
+            color: #000;
+        }
+
+        
+        
+        /* ocultar el checkbox real */
+        #toggle-form {
+            display: none;
+        }
+
+        /* El formulario de registro está oculto por defecto */
+        .register-section {
+            display: none; 
+        }
+
+        /* Cuando el checkbox oculto está marcado, ocultamos el login */
+        #toggle-form:checked ~ .login-card .login-section {
+            display: none;
+        }
+
+        /* Cuando el checkbox oculto está marcado, mostramos el registro */
+        #toggle-form:checked ~ .login-card .register-section {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <input type="checkbox" id="toggle-form">
+
+    <div class="login-card">
+        <div class="logo-placeholder">
+            <img src="img/logo.png" alt="Logo" style="width: 100%; border-radius: 50%;">
+        </div>
+        
+        <h2 style="margin: 0;">Proactive Nutrition</h2>
+        <p style="color: #000000; margin-bottom: 30px;">Sistema de Gestión de inventario</p>
+
+        <div class="login-section">
+            <form action="dashboard.html">
+                <div class="input-group">
+                    <label>Usuario</label>
+                    <input type="text" placeholder="Sebastian Perez Poveda" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Contraseña</label>
+                    <input type="password" placeholder="**********" minlength="8" title="Debe contener al menos 8 caracteres" required>
+                </div>
+
+                <button type="submit" class="btn-login">Iniciar sesión</button>
+            </form>
+            <label for="toggle-form" class="toggle-link">¿No tienes cuenta? Regístrate aquí</label>
+        </div>
+
+        <div class="register-section">
+    <form id="formRegistro"> 
+        <div class="input-group">
+            <label>Nombre</label>
+            <input type="text" id="regNombre" placeholder="Ej. Sebastian Perez" required>
+        </div>
+
+        <div class="input-group">
+            <label>Correo Electrónico</label>
+            <input type="email" id="regEmail" placeholder="correo@ejemplo.com" required>
+        </div>
+        
+        <div class="input-group">
+            <label>Contraseña</label>
+            <input type="password" id="regPassword" placeholder="**********" minlength="6" required>
+        </div>
+
+        <button type="submit" class="btn-login">Enviar</button>
+    </form>
+    <label for="toggle-form" class="toggle-link">¿Ya tienes cuenta? Inicia sesión</label>
+ </div>
+        <p style="font-size: 12px; margin-top: 30px;">© 2026 proactive nutrition, Inc.</p>
+        <div class="color-bar">
+            <div class="bar" style="background: #FF0606;"></div> 
+            <div class="bar" style="background: #9120B7;"></div> 
+            <div class="bar" style="background: #49D93B;"></div> 
+        </div>
+    </div>
+
+   <script>
+    const API_URL = "http://localhost:8080/api";
+
+    //  el usuario intenta registrarse
+    document.getElementById('formRegistro').addEventListener('submit', async (e) => {
+        e.preventDefault(); // Se detiene el refresh del formulario
+
+        // Capturamos los valores
+        const nombre = document.getElementById('regNombre').value;
+        const email = document.getElementById('regEmail').value;
+        const password = document.getElementById('regPassword').value;
+
+        // Rol por defecto para el @NotBlank
+       
+        const datos = {
+            nombre: nombre,
+            email: email,
+            password: password,
+            rol: "Vendedor" //
+        };
+
+        try {
+            const respuesta = await fetch(`${API_URL}/usuarios`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datos)
+            });
+
+            if (respuesta.status === 201) {
+                alert("¡Registro exitoso! Ahora puedes iniciar sesión.");
+                // Simulacion de el cambio a la pantalla de login marcando el checkbox
+                document.getElementById('toggle-form').checked = false;
+            } else {
+                const errorData = await respuesta.json();
+                // se muestra los errores que vienen de la Globalexceptionhandler
+                alert("Error: " + (errorData.errores ? errorData.errores.join(", ") : errorData.mensaje));
+            }
+        } catch (error) {
+            alert("No se pudo conectar con el servidor. ¿El Spring Boot se esta ejecutando?");
+        }
+    });
+</script>
+</body>
+</html>

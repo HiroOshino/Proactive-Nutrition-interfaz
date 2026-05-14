@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Proactive Nutrition - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <input type="radio" name="menu" id="rd-ventas" checked style="display:none;">
+    <input type="radio" name="menu" id="rd-inventario" style="display:none;">
+    <input type="radio" name="menu" id="rd-usuarios" style="display:none;">
+
+    <aside class="sidebar">
+        <div class="sidebar-brand">Proactive Nutrition</div>
+        <nav class="nav-menu">
+            <label for="rd-ventas" class="nav-link-label"><i class="fas fa-chart-line"></i> Análisis de ventas</label>
+            <label for="rd-inventario" class="nav-link-label"><i class="fas fa-box"></i> Inventario</label>
+            <label for="rd-usuarios" class="nav-link-label"><i class="fas fa-user"></i> Usuario</label>
+        </nav>
+    </aside>
+    
+    <div class="main-wrapper">
+        <nav class="top-nav">
+            <div style="font-weight: bold;">Panel de Control</div>
+            <div style="display:flex; align-items:center; gap:20px;">
+                <i class="fas fa-user-circle"></i>
+                <a href="index.html" class="btn-salir">Cerrar Sesión</a>
+            </div>
+        </nav>
+
+        <main class="content">
+             <div id="sec-ventas" class="panel-seccion">
+                <h1 style="margin-bottom: 5px;">Análisis de ventas</h1>
+                <p style="color:#777; margin-bottom:30px;">Resumen general del almacén deportivo</p>
+
+                <div class="stats-row">
+                    <div class="stat-card border-green" style="position: relative;">
+                        <i class="fas fa-box" style="position: absolute; right: 20px; top: 20px; color: var(--green); font-size: 1.2rem;"></i>
+                        <h4 style="color: #555; margin-bottom: 5px;">Total de productos</h4>
+                        <span id="dato-total-productos" class="val" style="color: #000;">0</span>
+                        <small style="color: #888; font-size: 0.7rem; display: block; margin-top: 10px;">En categorías diferentes</small>
+                    </div>
+                    
+                    <div class="stat-card border-red" style="position: relative;">
+                        <i class="fas fa-exclamation-triangle" style="position: absolute; right: 20px; top: 20px; color: var(--red); font-size: 1.2rem;"></i>
+                        <h4 style="color: #555; margin-bottom: 5px;">Producto bajo stock</h4>
+                        <span id="dato-bajo-stock" class="val" style="color: #000;">0</span>
+                        <small style="color: #888; font-size: 0.7rem; display: block; margin-top: 10px;">Requieren reabastecimiento</small>
+                    </div>
+                    
+                    <div class="stat-card border-purple" style="position: relative;">
+                        <i class="far fa-user" style="position: absolute; right: 20px; top: 20px; color: var(--purple); font-size: 1.2rem;"></i>
+                        <h4 style="color: #555; margin-bottom: 5px;">Usuarios Registrados</h4>
+                        <span id="dato-total-usuarios" class="val" style="color: #000;">0</span>
+                        <small style="color: #888; font-size: 0.7rem; display: block; margin-top: 10px;">Personal activo del almacen</small>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 15px; margin-top: 35px;">Actividad reciente</h3>
+            
+                <div id="contenedor-actividad-reciente">
+                    <p style="color: #888;">Cargando actividad...</p>
+                </div>
+
+                <div class="alert-zone" style="background: #ffe6e6; border-radius: 10px; padding: 25px; margin-top: 30px; border: none;">
+                    <b style="color:var(--red); font-size: 1.1rem;"><i class="fas fa-exclamation-triangle"></i> Alerta de Inventario</b>
+                    
+                    <p id="texto-alerta-cantidad" style="color: var(--red); font-size: 0.85rem; margin-top: 8px; margin-bottom: 15px; font-weight: bold;">Cargando alertas...</p>
+                    
+                    <div id="contenedor-alertas-rojas"></div>
+                </div>
+            </div>
+
+         <div id="sec-inventario" class="panel-seccion">
+                <div style="display:flex; justify-content:space-between; margin-bottom: 25px;">
+                    <h1>Productos</h1>
+                    <button class="btn-add" onclick="nuevoProducto()">+ Agregar Producto</button>
+                </div>
+
+                <div class="card-table">
+                    <table id="miTabla">
+                        <thead>
+                            <tr><th>Nombre</th><th>Categoría</th><th>Stock</th><th>Precio</th><th>Estado</th><th>Ubicacion</th><th>Acciones</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="7">Cargando inventario...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="sec-usuarios" class="panel-seccion">
+                <div class="header-table" style="display:flex; justify-content:space-between; margin-bottom: 25px;">
+                    <h1>Listado de Usuarios</h1>
+                    <button class="btn-add" onclick="agregarUsuario()">+ Nuevo Usuario</button>
+                </div>
+
+                <div class="card-table">
+                    <table id="tablaUsuarios">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Correo Electrónico</th>
+                                <th>Rol</th>
+                                <th>Contraseña</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="5">Cargando usuarios...</td></tr>
+                        </tbody>
+                    </table>
+                </div> </div>
+        </main>
+    </div>
+
+    <script src="javita.js"></script>
+</body>
+</html>
