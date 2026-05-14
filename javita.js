@@ -42,7 +42,8 @@ async function listarProductos() {
         const productos = await respuesta.json();
 
         tbody.innerHTML = ""; 
-
+        
+//  Lógica para mostrar el estado del stock con colores y etiquetas
         productos.forEach(producto => {
             //lógica de colores para el stock
             let estadoCol;
