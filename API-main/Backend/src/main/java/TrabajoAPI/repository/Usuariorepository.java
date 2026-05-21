@@ -60,4 +60,15 @@ public class Usuariorepository {
         }
         return false;
     }
+
+    // Busca usuario para verificar los datos de login
+    public Usuario buscarPorEmail(String email) {
+        if (email == null) return null;
+        for (Usuario u : usuarios.values()) {
+            if (u.getEmail().trim().equalsIgnoreCase(email.trim())) {
+                return u;
+            }
+        }
+        return null;
+    }
 }

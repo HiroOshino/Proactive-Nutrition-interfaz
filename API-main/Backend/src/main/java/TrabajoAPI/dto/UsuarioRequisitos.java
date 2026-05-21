@@ -14,10 +14,10 @@ public class UsuarioRequisitos {
     private String email;
 
     @NotBlank(message = "La contrasena es obligatoria")
-    @Size(min = 6, message = "La contrasena debe tener minimo 6 caracteres")
+    @Size(min = 8, message = "La contrasena debe tener minimo 8 caracteres")
     private String password;
 
-    // <-- Nueva validación y variable para el Rol -->
+
     @NotBlank(message = "El rol es obligatorio")
     private String rol;
 

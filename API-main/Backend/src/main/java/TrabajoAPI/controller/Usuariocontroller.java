@@ -6,13 +6,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 import TrabajoAPI.dto.UsuarioRequisitos;
 import TrabajoAPI.dto.Usuarioresponse;
 import TrabajoAPI.service.Usuarioservice;
+
 @RestController
 @RequestMapping("/api/usuarios")
-@CrossOrigin(origins = "*") // <--- AQUÍ TAMBIÉN
+@CrossOrigin(origins = "*")
 public class Usuariocontroller {
 
     private Usuarioservice usuarioService;
@@ -25,6 +27,31 @@ public class Usuariocontroller {
     public ResponseEntity<Usuarioresponse> crear(@Valid @RequestBody UsuarioRequisitos request) {
         Usuarioresponse response = usuarioService.crear(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> credenciales) {
+        String email = credenciales.get("email");
+        String password = credenciales.get("password");
+
+        try {
+            Usuarioresponse response = usuarioService.autenticar(email, password);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    // olvidar pasword jijooo
+    @PostMapping("/recuperar")
+    public ResponseEntity<?> recuperarPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        try {
+            usuarioService.recuperarPassword(email);
+            return ResponseEntity.ok(Map.of("message", "Si el correo existe, se han enviado las instrucciones."));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", e.getMessage()));
+        }
     }
 
     @GetMapping
@@ -40,7 +67,7 @@ public class Usuariocontroller {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuarioresponse> actualizar(@PathVariable Long id, @Valid @RequestBody UsuarioRequisitos request) {
+    public ResponseEntity<Usuarioresponse> actualizar(@PathVariable Long id, @RequestBody UsuarioRequisitos request) {
         Usuarioresponse response = usuarioService.actualizar(id, request);
         return ResponseEntity.ok(response);
     }

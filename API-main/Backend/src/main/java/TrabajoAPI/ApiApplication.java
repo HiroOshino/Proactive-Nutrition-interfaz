@@ -20,40 +20,16 @@ public class ApiApplication {
     public CommandLineRunner initDatabase(Productorepository productoRepo, Usuariorepository usuarioRepo) {
         return args -> {
 
-            // --- SEMBRADO DE USUARIOS (SEGÚN TU MOCKUP) ---
+            // sembrado de users
             if (usuarioRepo.buscarTodos().isEmpty()) {
 
                 Usuario u1 = new Usuario();
                 u1.setNombre("Juan Sebastian Perez Poveda");
-                u1.setEmail("juan_perezpo@gmail.com");
-                u1.setPassword("123456"); // Password requerido por tu modelo
-                u1.setRol("Owner");
+                u1.setEmail("daneivid212@gmail.com");
+                u1.setPassword("whitezunder159"); // Password requerido por tu modelo
+                u1.setRol("Admin");
                 u1.setActivo(true);
                 usuarioRepo.guardar(u1);
-
-                Usuario u2 = new Usuario();
-                u2.setNombre("Cristian Gutierrez");
-                u2.setEmail("Cristianpogut@gmail.com");
-                u2.setPassword("123456");
-                u2.setRol("Admin");
-                u2.setActivo(true);
-                usuarioRepo.guardar(u2);
-
-                Usuario u3 = new Usuario();
-                u3.setNombre("Maria Gonzales");
-                u3.setEmail("MariaGonzales213@gmail.com");
-                u3.setPassword("123456");
-                u3.setRol("Vendedor");
-                u3.setActivo(true);
-                usuarioRepo.guardar(u3);
-
-                Usuario u4 = new Usuario();
-                u4.setNombre("Miguel Zapata");
-                u4.setEmail("Miguelito245L@gmail.com");
-                u4.setPassword("123456");
-                u4.setRol("Almacenista");
-                u4.setActivo(true);
-                usuarioRepo.guardar(u4);
 
                 System.out.println("Usuarios registrados.");
             }
